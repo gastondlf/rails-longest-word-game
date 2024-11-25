@@ -20,28 +20,15 @@ class GamesController < ApplicationController
 
   def score
     @start_time = Time.parse(params[:start_time])
-    @end_time = Time.now
-    @letters = params[:letters]
     @user_input = params[:input1]
-    @valid = in_the_grid?(@user_input, @letters)
+    @valid = in_the_grid?(@user_input, params[:letters])
     @found = check_dictionary?(@user_input) if @valid
 
-    if @valid && @found
-      @message = "Congratulations! <strong>#{@user_input.upcase}</strong> is a valid English word!"
-      @score = ((60 - (@end_time - @start_time)) * @user_input.length).round
-      session[:scores] << @score
-      @grand_total = session[:scores].sum
-    elsif  @valid
-      @message = "Sorry but #{@user_input.upcase} does not seem to be a valid English word..."
-      @score = 0
-      session[:scores] << @score
-      @grand_total = session[:scores].sum
-    else
-      @message = "Sorry but #{@user_input.upcase} can't be build out of #{@letters}"
-      @score = 0
-      session[:scores] << @score
-      @grand_total = session[:scores].sum
-    end
+    @message = result_message(@valid, @found)
+    @score = ((60 - (Time.now - @start_time)) * @user_input.length).round
+    
+    session[:scores] << @score
+    @grand_total = session[:scores].sum
   end
 
   private
@@ -61,6 +48,16 @@ class GamesController < ApplicationController
       repeated = false if attempt.scan(c).count > grid.count(c.upcase)
     end
     included && repeated
+  end
+
+  def result_message (valid, found)
+    if @valid && @found
+      @message = "Congratulations! <strong>#{@user_input.upcase}</strong> is a valid English word!"
+    elsif  @valid
+      @message = "Sorry but #{@user_input.upcase} does not seem to be a valid English word..."
+    else
+      @message = "Sorry but #{@user_input.upcase} can't be build out of #{params[:letters]}"
+    end
   end
 
 end

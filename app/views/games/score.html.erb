@@ -8,4 +8,4 @@
 <p>Total score: <%= @grand_total %></p>
 
 <%= link_to "Play again", new_path %>
-<%= link_to "Reset Cache", reset_cache_path %>
+<%= link_to "Reset Cache", reset_cache_path, data: { turbo_method: :post } %>
