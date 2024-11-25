@@ -1,0 +1,11 @@
+
+<h2>Result</h2>
+<p><%= @message %></p>
+<p>Attempt: <%= @user_input.upcase %></p>
+<p>Valid from grid: <%= @valid %></p>
+<p>Found in Dictionary: <%= @found %></p>
+<p>Score: <%= @score %></p>
+<p>Total score: <%= @grand_total %></p>
+
+<%= link_to "Play again", new_path %>
+<%= link_to "Reset Cache", reset_cache_path %>
