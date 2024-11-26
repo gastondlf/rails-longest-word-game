@@ -1,15 +1,16 @@
-
-<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-<% @letters.each do |letter| %>
-    <div class="col">
-        <div class="p-3"><%= letter %></div>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="row col-6">
+    <% @letters.each do |letter| %>
+        <div class="col d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background-color: green; border: 1px solid white;">
+            <div class="justify-content-center letter"><%= letter %></div>
+        </div>
+    <% end %>
     </div>
-<% end %>
 </div>
-<form action="/score" method="post" data-turbo="false">
-    <input type="text" name="input1">
+<form action="/score" method="post" data-turbo="false" class="mt-4 d-flex justify-content-center">
+    <input type="text" name="input1" class="form-control" style="width: 300px">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <%= hidden_field_tag :letters, @letters %>
     <%= hidden_field_tag :start_time, Time.now %>
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-primary"value="Play!">
 </form>
